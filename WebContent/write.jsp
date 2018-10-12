@@ -4,7 +4,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+		
 <%-- <%
   	String ctx = request.getContextPath();    //콘텍스트명 얻어오기.
 %>	 --%>
@@ -12,8 +12,18 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+<style type="text/css">
+</style>
+
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 <title>Insert title here</title>
 
 <script type="text/javascript" src="<%=request.getContextPath()%>/smarteditor/js/HuskyEZCreator.js" charset="utf-8"></script>
@@ -139,21 +149,56 @@ $(function(){
 				$('form').append("<input type='hidden' name='img"+i+"' value='"+b+"'>")
           	}
 		  $('form').append("<input type='hidden' name='count' value='"+count+"'>")
-
-          $('form').submit();
+		  
+		if(count>0)
+            $('form').submit();
+		else{
+	    	alert("사진을 최소 1장이상 올려주세요.");
+			return false;
+			}
       });      
 })
+
 var count = 0;
 function pasteHTML(filepath){
 	var id = '${sessionScope.vo.id}';
 	count++;
-	var sHTML = '<img src="<%=request.getContextPath()%>/upload/'+id+'/'+filepath+'" width="265px" id="img'+count+'"><br>';
-    <%-- var sHTML = '<img src="<%=request.getContextPath()%>/upload/'+filepath+'">'; --%>
-   <%--  var sHTML = '<img src="<%= %>C:/kyj/webpro2/eclipse/workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/TourProject/upload/'+id+'/'+filepath+'">'; --%>
-   $('#imageupload').append(sHTML);
- 	
-   /* oEditors.getById["smarteditors"].exec("PASTE_HTML", [sHTML]); */
+//	$('#imageupload').empty();
+	
+	<%-- var ss = '<div id="myCarousel" class="carousel slide" data-ride="carousel"><ol class="carousel-indicators">';
+	var ss2 = '';
+	var ss3 = '</ol><div class="carousel-inner">';
+	var ss4 = '';
+	var ss5 = '</div><a class="left carousel-control" href="#myCarousel" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span>'
+	      +'<span class="sr-only">Previous</span></a><a class="right carousel-control" href="#myCarousel" data-slide="next">'
+	      +'<span class="glyphicon glyphicon-chevron-right"></span><span class="sr-only">Next</span></a></div>';
+	      
+	      
+    if(count==1){
+    	ss2 = '<li data-target="#myCarousel" data-slide-to="0" class="active"></li>';
+    	ss4 = '<div class="item active"><img src="<%=request.getContextPath()%>/upload/'+id+'/'+filepath+'" width="265px" id="img'+count+'"></div>';
+    	
+    }else{
+    	ss2 = ss2+'<li data-target="#myCarousel" data-slide-to="(count-1)"></li>';
+    	ss4 = ss4+'<div class="item"><img src="<%=request.getContextPath()%>/upload/'+id+'/'+filepath+'" width="265px" id="img'+count+'"></div>'
+    }
+    
+    
+	var result = ss+ss2+ss3+ss4+ss5; --%>
+ 	var sHTML = '<img src="<%=request.getContextPath()%>/upload/'+id+'/'+filepath+'" width="265px" id="img'+count+'">'; 
+	var imgDiv = "<div class='item'>"+sHTML+"</div>";
+	$('#xxxx').append(imgDiv);	
+	$('#xxxx div:eq(0)').addClass('active');
+	
+	var ss = '<li data-target="#myCarousel" data-slide-to="'+(count-1)+'"></li>';
+    $('#yyyy').append(ss);
+	$('#yyyy li:eq(0)').addClass('active');
 }
+// 	$('#imageupload').append(sHTML);
+   
+   
+ 
+   /* oEditors.getById["smarteditors"].exec("PASTE_HTML", [sHTML]); */
 
 
 </script>	
@@ -162,7 +207,7 @@ function pasteHTML(filepath){
 <!-- <input type="hidden" name="command" value="write"> -->
 <table border="1" align="center" width="80%" style="table-layout:fixed;">
 	<tr>
-		<th align="center">작성자</th>
+		<th style="text-align:center;">작성자</th>
 		<td><input type="text" name="id" value="${sessionScope.vo.id}" readonly="readonly" style="width:99%;"></td>
 		<th>지역</th>
 		<td>	
@@ -190,7 +235,7 @@ function pasteHTML(filepath){
         <td align="center"> 	
            	<select id="location2" name="city" required="required">
            		<option>광역시/도를 먼저 선택해주세요.</option>	
-           	</select>
+           	</select>	
         </td>
 	</tr>
 	<tr>
@@ -207,7 +252,27 @@ function pasteHTML(filepath){
 	</tr>
 	<tr>
 		<td colspan="4"><textarea id="smarteditor" rows="30" cols="40" name="smarteditor" style="width:99%;"></textarea></td>
-		<td><div style="overflow-y:auto; overflow-x:hidden; width:270px; height:520px;" id="imageupload"></div></td>
+		<td>
+		<div class="container" style="overflow-y:auto; overflow-x:hidden; width:270px; height:520px;" id="imageupload">
+		
+				<div id="myCarousel" class="carousel slide" data-ride="carousel">
+					<ol class="carousel-indicators" id="yyyy">
+						
+					</ol>
+					<div class="carousel-inner" id="xxxx">
+						
+					</div>
+					<a class="left carousel-control" href="#myCarousel" data-slide="prev">
+				      <span class="glyphicon glyphicon-chevron-left"></span>
+				      <span class="sr-only">Previous</span>
+				    </a>
+				    <a class="right carousel-control" href="#myCarousel" data-slide="next">
+				      <span class="glyphicon glyphicon-chevron-right"></span>
+				      <span class="sr-only">Next</span>
+				    </a>
+				</div>
+		</div>
+		</td>
 	</tr>
 </table>
 	
