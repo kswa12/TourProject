@@ -17,7 +17,7 @@ public interface ReviewStringQuery {
 			+ " AND review_num IN ((SELECT review_num FROM tag WHERE word=?)) AND location=?"; // v1에서 왼쪽 리뷰 리스트
 */
  	String INSERT_REVIEWIMAGE = "INSERT INTO review_image(review_num, review_image) VALUES(?, ?)";
-  String INSERT_TAG = "INSERT INTO tag(review_num, word) VALUES(?, ?)";
+    String INSERT_TAG = "INSERT INTO tag(review_num, word) VALUES(?, ?)";
 	String CHECK_REVIEW = "select * from review where review_num = ?"; // 글 정보 return
 	
 	String BEST_REVIEW_LOCATION_TAG = "select review_num, title, likes,city from (select * from review order by likes desc) where rownum<4"
@@ -97,8 +97,8 @@ public interface ReviewStringQuery {
 			+ "(SELECT review_num, title, location, city,id, ceil(rownum/10) page"
 			+ " FROM (SELECT * FROM review ORDER BY review_num desc)" + 
 			") WHERE page<=?";
-	String INSERT_REVIEWIMAGE = "INSERT INTO review_image(review_num, review_image) VALUES(?, ?)";
-	String INSERT_TAG = "INSERT INTO tag(review_num, word) VALUES(?, ?)";
+	//String INSERT_REVIEWIMAGE = "INSERT INTO review_image(review_num, review_image) VALUES(?, ?)";
+	//String INSERT_TAG = "INSERT INTO tag(review_num, word) VALUES(?, ?)";
 	String GET_REVIEW_BY_SEARCH = "select * from review where review_num in" + " (select review_num from"
       + " (select review_num, ceil(rownum/" + CommonConstants.CONTENT_NUMBER_PER_PAGE + ") page from"
 			+ " (select review_num from tag where word="
