@@ -16,6 +16,7 @@ public class GetReviewController implements Controller{
 		int reviewNum = Integer.parseInt(request.getParameter("reviewNum"));
 		ReviewVO rvo = TourDao.getInstance().checkReview(reviewNum);
 		request.setAttribute("rvo", rvo);
+		request.setAttribute("reviewNum", reviewNum);
 		
 		String updateContent = TourDao.getInstance().getChangeContent(rvo.getContent());
 		request.setAttribute("updateContent", updateContent);

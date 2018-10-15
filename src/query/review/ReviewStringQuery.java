@@ -37,6 +37,7 @@ public interface ReviewStringQuery {
 	String DELETE_REVIEW = "delete from review where review_num=?";
 	String DELETE_ALL_SCRAP = "delete from scrap where review_num=?";
 	String DELETE_TAG = "delete from tag where review_num=?";
+	String DELETE_REVIEW_IMG1 = "delete from review_image where review_num=?";
 	String DELETE_REVIEW_IMG = "delete from review_image where review_num=? and review_image=?";
 	// 스크랩
 		String INSERT_SCRAP = "insert into scrap(id,review_num) values(?,?)";
@@ -54,7 +55,7 @@ public interface ReviewStringQuery {
 		String DELETE_CHECK = "delete from likes where id=? AND review_num=?";
 		String CHECK_SELECT = "select * from likes where id=? AND review_num=?";	
 		
-	String UPDATE_REVIEW = "update review set location=?, city=?, title=?, content=? where review_num=?";
+	String UPDATE_REVIEW = "update review set location=?, city=?, title=?, content=?, date_writing=sysdate where review_num=?";
 	String TOTAL_SCRAP_COUNT = "select count(-1) from scrap where id=?";
 	String TOTAL_MY_REVIEW_COUNT = "select count(-1) from review where id=?";
 	String TOTAL_RELATED_REVIEW_COUNT = "select count(-1) from review where review_num in"

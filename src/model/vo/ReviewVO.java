@@ -17,6 +17,16 @@ public class ReviewVO {
 	ArrayList<String> images;
 	
 	public ReviewVO() {}
+	
+	public ReviewVO(int reviewNum,String title, String id,String location, String city, String content) {
+		this.reviewNum = reviewNum;
+		this.title = title;
+		this.location = location;
+		this.city = city;
+		this.content = content;
+		this.id = id;
+		this.content = content;
+	}
 
 	public ReviewVO(String title, String id, String location, String city, String content) {
 		this.title = title;

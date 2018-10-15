@@ -723,10 +723,8 @@ public class TourDao {
 
    // ArrayList<String> tags, ArrayList<String> images
    public void updateReview(ReviewVO rvo) throws SQLException { // update
-
       Connection conn = null;
       PreparedStatement ps = null;
-
       try {
          conn = getConnect();
          ps = conn.prepareStatement(ReviewStringQuery.UPDATE_REVIEW);
@@ -1109,6 +1107,19 @@ public class TourDao {
       return vo;
    }
    
+   public void deleteImage(int reviewNum)throws SQLException {
+	      Connection conn = null;
+	      PreparedStatement pstmt = null;
+	      try {
+	         conn = getConnect();
+	         pstmt = conn.prepareStatement(ReviewStringQuery.DELETE_REVIEW_IMG1);
+	         pstmt.setInt(1, reviewNum);
+	         pstmt.executeUpdate();
+	      } finally {
+	         closeAll(pstmt, conn);
+	      }   
+	   }
+  
    public void deleteImage(int reviewNum, String img) throws SQLException {
       System.out.println("img url : " + img);
       File file = new File(
