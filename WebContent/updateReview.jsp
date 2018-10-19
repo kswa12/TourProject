@@ -64,6 +64,12 @@
     h1{
     padding-top:80px;
     }
+    
+    #deletebtn{
+    border:0px;
+    background-color:white;
+    margin-left:92px;
+    }
 </style>
 <link rel="stylesheet" href="css/nav.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -130,16 +136,24 @@ var count = ${imgcount};
 function pasteHTML(filepath){
    var id = '${sessionScope.vo.id}';
    count++;
-
-   var ss = '<li data-target="#myCarousel" data-slide-to="'+(count-1)+'"></li>';
+	
+   $('#deletebtndiv').show();
+   var ss = '<li class="delete" data-target="#myCarousel" data-slide-to="'+(count-1)+'"></li>';
    $('#yyyy').append(ss);
-
+   $('#yyyy li:eq(0)').addClass('active');
    
    var sHTML = '<img src="<%=request.getContextPath()%>/upload/'+id+'/'+filepath+'" width="265px" id="img'+count+'">'; 
-   var imgDiv = "<div class='item'>"+sHTML+"</div>";
+   var imgDiv = "<div class='item delete'>"+sHTML+"</div>";
    $('#xxxx').append(imgDiv);   
+   $('#xxxx div:eq(0)').addClass('active');
 }
-   
+/* 
+function delete_img(){
+	$('.delete').remove();
+	$('#deletebtndiv').hide();
+	count=0;
+}
+    */
 var oEditors = [];
 $(function(){
       nhn.husky.EZCreator.createInIFrame({
@@ -164,10 +178,33 @@ $(function(){
           },
           fCreator: "createSEditor2"
       });
-     
- 
+      jQuery.ajaxSettings.traditional = true;
+ 	  $('#deletebtn').click(function(){
+ 		  var arr = [];
+ 		  for(i=1; i<=count;i++){
+             var b = $('#img'+i+'').attr('src');
+             arr.push(b);
+            }
+ 		 $.ajax({
+ 			type : "get",
+ 			url : "deleteImage.do",
+ 			data : {
+ 				"arr":arr,
+ 				"reviewNum" : ${rvo.reviewNum}
+ 			},
+
+ 			success : function(data) {
+ 				$('.delete').remove();
+ 		 		 $('#deletebtndiv').hide();
+ 		 		 count=0;
+ 			}
+ 			
+ 		});
+ 		  
+ 		 
+ 	  });
       //저장버튼 클릭시 form 전송
-      $("#savebutton").click(function(){
+      $("form").submit(function(){
           oEditors.getById["smarteditor"].exec("UPDATE_CONTENTS_FIELD", []);
          for(i=1; i<=count;i++){
             var b = $('#img'+i+'').attr('src');
@@ -302,18 +339,18 @@ $(function(){
             <div id="myCarousel" class="carousel slide" data-ride="carousel">
             
                <ol class="carousel-indicators" id="yyyy">
-               	  <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+               	  <li class="delete" data-target="#myCarousel" data-slide-to="0" class="active"></li>
                   <c:forEach items="${ilist}" var="imgcount" varStatus="status" begin="1" end="${imgcount-1}" step="1">
-					<li data-target="#myCarousel" data-slide-to="${status.count}"></li>
+					<li class="delete" data-target="#myCarousel" data-slide-to="${status.count}"></li>
 				  </c:forEach>
                </ol>
                
                <div class="carousel-inner" id="xxxx">
-              		<div class="item active">
+              		<div class="item active delete">
 					<img src="${ilist[0]}" width="265px" id="img1">
 				  	</div>
                   <c:forEach items="${ilist}" var="ilist" varStatus="status" begin="1" end="${imgcount-1}" step="1">
-					<div class="item">
+					<div class="item delete">
 					<img src="${ilist}" width="265px" id="img${status.count+1}">
 				  	</div>
 				  </c:forEach>
@@ -328,6 +365,10 @@ $(function(){
                   <span class="sr-only">Next</span>
                 </a>
             </div>
+            <br><br>
+            <div id="deletebtndiv">
+            <button type="button" class="deletebtn" id="deletebtn"><img src="img/deletebutton.png" width="30px"></button>
+            </div>
       </div>
       </td>
    </tr>
@@ -336,7 +377,7 @@ $(function(){
    <tr>
       <td align="right">
          <input type="button" value="취소">
-         <input type="submit" id="savebutton" value="작성">
+         <input type="submit" id="savebutton" value="수정">
       </td>
    </tr>   
 </table>

@@ -56,14 +56,14 @@ public class HandlerMapping {
 			return new GetReviewController();
 		case "memberreview.do":
 			return new MemberReviewController();
-		case "deleteiamge.do":
-			return new DeleteIamgeController();
 		case "like.do":
 			return new likeCheckedController();
 		case "scrapCheck.do":
 			return new scrapCheckedController();
 		case "getBestReviewCityBytag.do":
 			return new GetBestReviewCityBytagController();
+		case "deleteImage.do":
+			return new DeleteImageController();
 		}
 		return null;
 	}

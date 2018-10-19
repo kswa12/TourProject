@@ -95,7 +95,6 @@
 		font-family: BMDOHYEON_ttf;
 		border: 1px gray double;
 		border-radius:50px;
-		
 	}
 </style>
 

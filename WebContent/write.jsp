@@ -64,6 +64,11 @@
     h1{
     padding-top:80px;
     }
+    #deletebtn{
+    border:0px;
+    background-color:white;
+    margin-left:92px;
+    }
 </style>
 <link rel="stylesheet" href="css/nav.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -130,15 +135,21 @@ var count = 0;
 function pasteHTML(filepath){
    var id = '${sessionScope.vo.id}';
    count++;
-
-   var ss = '<li data-target="#myCarousel" data-slide-to="'+(count-1)+'"></li>';
+   $('#deletebtndiv').show();
+   var ss = '<li class="delete" data-target="#myCarousel" data-slide-to="'+(count-1)+'"></li>';
    $('#yyyy').append(ss);
    $('#yyyy li:eq(0)').addClass('active');
    
    var sHTML = '<img src="<%=request.getContextPath()%>/upload/'+id+'/'+filepath+'" width="265px" id="img'+count+'">'; 
-   var imgDiv = "<div class='item'>"+sHTML+"</div>";
+   var imgDiv = "<div class='item delete'>"+sHTML+"</div>";
    $('#xxxx').append(imgDiv);   
    $('#xxxx div:eq(0)').addClass('active');
+}
+
+function delete_img(){
+	$('.delete').remove();
+	$('#deletebtndiv').hide();
+	count=0;
 }
    
 var oEditors = [];
@@ -246,6 +257,7 @@ $(function(){
     	<div id="line"></div>
 	</nav> 
 <h1 align="center"> 글 작성 </h1>
+<br><br>
 <form action="write.do" method="post" name="frm"> <!--  enctype="multipart/form-data" -->
 <!-- <input type="hidden" name="command" value="write"> -->
 <table class="colorborder" border="1" align="center" width="80%" style="table-layout:fixed;">
@@ -297,8 +309,8 @@ $(function(){
    <tr>
       <td colspan="4"><textarea id="smarteditor" rows="30" cols="40" name="smarteditor" style="width:99%;"></textarea></td>
       <td>
+      <br><br>
       <div class="container" style="overflow-y:auto; overflow-x:hidden; width:270px; height:520px;" id="imageupload">
-      
             <div id="myCarousel" class="carousel slide" data-ride="carousel">
                <ol class="carousel-indicators" id="yyyy">
                   
@@ -306,7 +318,8 @@ $(function(){
                <div class="carousel-inner" id="xxxx">
                   
                </div>
-               <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+               
+                <a class="left carousel-control" href="#myCarousel" data-slide="prev">
                   <span class="glyphicon glyphicon-chevron-left"></span>
                   <span class="sr-only">Previous</span>
                 </a>
@@ -315,7 +328,11 @@ $(function(){
                   <span class="sr-only">Next</span>
                 </a>
             </div>
-      </div>
+            <br><br>
+            <div id="deletebtndiv" style="display:none;">
+            <button class="deletebtn" id="deletebtn" onclick="delete_img()"><img src="img/deletebutton.png" width="30px"></button>
+            </div>
+      </div>	
       </td>
    </tr>
 </table>
@@ -325,7 +342,7 @@ $(function(){
       <td align="right">
          <input type="button" value="취소">
          <input type="submit" id="savebutton" value="작성">
-      </td>
+      </td>			
    </tr>   
 </table>
 </form>
